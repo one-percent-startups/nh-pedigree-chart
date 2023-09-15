@@ -1,0 +1,81 @@
+{
+  "family": [],
+  "lines": [],
+  "enrolment": {
+    "model": "{\"family\":[{\"key\":0,\"icon\":\"affected-by-history-male\",\"x\":142,\"y\":157,\"text\":\"affected-by-history-male\"},{\"key\":1,\"icon\":\"affected-male\",\"x\":119,\"y\":310,\"text\":\"affected-male\"}],\"lines\":[]}"
+  },
+  "icons": [
+    {
+      "icon": "proband-male",
+      "label": "Proband Male"
+    },
+    {
+      "icon": "affected-by-history-female",
+      "label": "ABH Female"
+    },
+    {
+      "icon": "affected-by-history-male",
+      "label": "ABH Male"
+    },
+    {
+      "icon": "affected-female",
+      "label": "Affected female"
+    },
+    {
+      "icon": "affected-male",
+      "label": "Affected male"
+    },
+    {
+      "icon": "carrier",
+      "label": "Carrier"
+    },
+    {
+      "icon": "deceased-female",
+      "label": "Deceased female"
+    },
+    {
+      "icon": "deceased-male",
+      "label": "Deceased male"
+    },
+    {
+      "icon": "examined-female",
+      "label": "Examined female"
+    },
+    {
+      "icon": "female",
+      "label": "Female"
+    },
+    {
+      "icon": "lived-one-day",
+      "label": "Lived one day"
+    },
+    {
+      "icon": "male",
+      "label": "Male"
+    },
+    {
+      "icon": "miscarriage",
+      "label": "Miscarriage"
+    },
+    {
+      "icon": "pregnancy",
+      "label": "Pregnancy"
+    },
+    {
+      "icon": "sex-unknown",
+      "label": "Sex unknown"
+    },
+    {
+      "icon": "stillbirth",
+      "label": "Still birth"
+    },
+    {
+      "icon": "two-females",
+      "label": "Two females"
+    },
+    {
+      "icon": "two-males",
+      "label": "Two males"
+    }
+  ]
+}
