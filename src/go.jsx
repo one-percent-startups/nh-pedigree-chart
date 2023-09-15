@@ -128,23 +128,23 @@ export const Genograph = () => {
       },
       $(
         go.Shape,
-        { strokeWidth: 2 }, // Customize the dash array to control the appearance of parallel lines
-        new go.Binding("strokeDashArray", "customStyle", function (style) {
-          return style === "dashed" ? [6, 3] : [null];
-        }),
-        {
-          doubleClick: function (e, link) {
-            console.log({ link });
-            // Toggle the link style on double-click
-            if (link.data.customStyle === "dashed") {
-              link.data.customStyle = "solid";
-            } else {
-              link.data.customStyle = "dashed";
-            }
-            // Update the link appearance
-            link.updateTargetBindings();
-          },
-        }
+        { strokeWidth: 2, strokeDashArray: [3, 6] } // Customize the dash array to control the appearance of parallel lines
+        // new go.Binding("strokeDashArray", "customStyle", function (style) {
+        //   return style === "dashed" ? [6, 3] : [null];
+        // }),
+        // {
+        //   doubleClick: function (e, link) {
+        //     console.log({ link });
+        //     // Toggle the link style on double-click
+        //     if (link.data.customStyle === "dashed") {
+        //       link.data.customStyle = "solid";
+        //     } else {
+        //       link.data.customStyle = "dashed";
+        //     }
+        //     // Update the link appearance
+        //     link.updateTargetBindings();
+        //   },
+        // }
       ),
       $(
         go.Shape, // the arrowhead
@@ -195,6 +195,7 @@ export const Genograph = () => {
             to: clickedPart.data.key,
           };
           onAddLines(linkData.from, linkData.to);
+          myDiagram.model.addLinkData(linkData);
           // Deselect the selected node
           myDiagram.model.selectedNodeData = null;
           myDiagram.clearSelection();
@@ -219,18 +220,18 @@ export const Genograph = () => {
       }
     });
 
-    myDiagram.addModelChangedListener((evt) => {
-      // if (evt.isTransactionFinished) {
-      //   console.log({ evt });
-      // }
-      if (!evt.isTransactionFinished) return;
-      var txn = evt.object; // a Transaction
-      if (txn === null) return;
-      // iterate over all of the actual ChangedEvents of the Transaction
-      txn.changes.each((e) => {
-        console.log({ change: e.change });
-      });
-    });
+    // myDiagram.addModelChangedListener((evt) => {
+    //   // if (evt.isTransactionFinished) {
+    //   //   console.log({ evt });
+    //   // }
+    //   if (!evt.isTransactionFinished) return;
+    //   var txn = evt.object; // a Transaction
+    //   if (txn === null) return;
+    //   // iterate over all of the actual ChangedEvents of the Transaction
+    //   txn.changes.each((e) => {
+    //     // console.log({ change: e.change });
+    //   });
+    // });
 
     getIcons();
 
@@ -239,12 +240,12 @@ export const Genograph = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (diagram) {
-      getElements();
-      getLines();
-    }
-  }, [diagram]);
+  // useEffect(() => {
+  //   // if (diagram) {
+  //   //   getElements();
+  //   //   getLines();
+  //   // }
+  // }, [diagram]);
 
   const getElements = () => {
     axios
@@ -348,13 +349,15 @@ export const Genograph = () => {
       y,
       text,
     };
+
     diagram.model.addNodeData(createNode(icon, newMember.key, x, y, icon));
     setFamily((family) => [...family, newMember]);
   };
 
   const onAddLines = (from, to) => {
     let newLine = { key: getLongestId(), from, to };
-    diagram.model.addLinkData({ from, to });
+    // console.log({ diagram });
+    // diagram.model.addLinkData({ from, to });
     setLines((lines) => [...lines, newLine]);
   };
 
