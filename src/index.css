@@ -1,0 +1,52 @@
+/* Container for the legend */
+.legend-container {
+  z-index: 100;
+  background-color: #f5f5f5;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+/* Individual legend items */
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+/* Style for the legend lines */
+.legend-line {
+  width: 30px;
+  height: 0px;
+  margin-right: 10px;
+}
+
+/* Different line styles */
+.solid {
+  border: 2px solid #000;
+}
+
+.long-dashed {
+  height: 2px;
+  background-image: linear-gradient(
+    to right,
+    black 30%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  background-size: 10px 3px;
+}
+
+.dotted {
+  border: 2px dotted #000;
+}
+
+.dashed {
+  border: 2px dashed #000;
+}
+
+/* Text for the legend items */
+legend-item span {
+  font-size: 14px;
+  color: #333;
+}

@@ -2,87 +2,85 @@ import React, { useEffect, useRef, useState } from "react";
 import * as go from "gojs";
 import axios from "axios";
 
+const icons = [
+  {
+    icon: "proband-male",
+    label: "Proband Male",
+  },
+  {
+    icon: "affected-by-history-female",
+    label: "ABH Female",
+  },
+  {
+    icon: "affected-by-history-male",
+    label: "ABH Male",
+  },
+  {
+    icon: "affected-female",
+    label: "Affected female",
+  },
+  {
+    icon: "affected-male",
+    label: "Affected male",
+  },
+  {
+    icon: "carrier",
+    label: "Carrier",
+  },
+  {
+    icon: "deceased-female",
+    label: "Deceased female",
+  },
+  {
+    icon: "deceased-male",
+    label: "Deceased male",
+  },
+  {
+    icon: "examined-female",
+    label: "Examined female",
+  },
+  {
+    icon: "female",
+    label: "Female",
+  },
+  {
+    icon: "lived-one-day",
+    label: "Lived one day",
+  },
+  {
+    icon: "male",
+    label: "Male",
+  },
+  {
+    icon: "miscarriage",
+    label: "Miscarriage",
+  },
+  {
+    icon: "pregnancy",
+    label: "Pregnancy",
+  },
+  {
+    icon: "sex-unknown",
+    label: "Sex unknown",
+  },
+  {
+    icon: "stillbirth",
+    label: "Still birth",
+  },
+  {
+    icon: "two-females",
+    label: "Two females",
+  },
+  {
+    icon: "two-males",
+    label: "Two males",
+  },
+];
+
 export const Genograph = () => {
   const genogramRef = useRef(null);
 
   const [diagram, setDiagram] = useState(null);
-
-  const [family, setFamily] = useState([]);
-  const [lines, setLines] = useState([]);
-  const [icons, setIcons] = useState([
-    {
-      icon: "proband-male",
-      label: "Proband Male",
-    },
-    {
-      icon: "affected-by-history-female",
-      label: "ABH Female",
-    },
-    {
-      icon: "affected-by-history-male",
-      label: "ABH Male",
-    },
-    {
-      icon: "affected-female",
-      label: "Affected female",
-    },
-    {
-      icon: "affected-male",
-      label: "Affected male",
-    },
-    {
-      icon: "carrier",
-      label: "Carrier",
-    },
-    {
-      icon: "deceased-female",
-      label: "Deceased female",
-    },
-    {
-      icon: "deceased-male",
-      label: "Deceased male",
-    },
-    {
-      icon: "examined-female",
-      label: "Examined female",
-    },
-    {
-      icon: "female",
-      label: "Female",
-    },
-    {
-      icon: "lived-one-day",
-      label: "Lived one day",
-    },
-    {
-      icon: "male",
-      label: "Male",
-    },
-    {
-      icon: "miscarriage",
-      label: "Miscarriage",
-    },
-    {
-      icon: "pregnancy",
-      label: "Pregnancy",
-    },
-    {
-      icon: "sex-unknown",
-      label: "Sex unknown",
-    },
-    {
-      icon: "stillbirth",
-      label: "Still birth",
-    },
-    {
-      icon: "two-females",
-      label: "Two females",
-    },
-    {
-      icon: "two-males",
-      label: "Two males",
-    },
-  ]);
 
   useEffect(() => {
     const $ = go.GraphObject.make;
@@ -100,7 +98,7 @@ export const Genograph = () => {
     myDiagram.nodeTemplate = $(
       go.Node,
       "Vertical", // the Shape will go around the TextBlock
-      new go.Binding("location", "location"),
+      new go.Binding("loc", "loc"),
       $(
         go.Picture,
         { height: 30 },
@@ -120,7 +118,6 @@ export const Genograph = () => {
     myDiagram.linkTemplate = $(
       go.Link,
       // new go.Binding("routing", "routing"),
-      { curve: go.Link.Bezier }, // the whole link panel
       {
         routing: go.Link.Orthogonal, // may be either Orthogonal or AvoidsNodes
         curve: go.Link.JumpOver,
@@ -128,23 +125,16 @@ export const Genograph = () => {
       },
       $(
         go.Shape,
-        { strokeWidth: 2, strokeDashArray: [3, 6] } // Customize the dash array to control the appearance of parallel lines
-        // new go.Binding("strokeDashArray", "customStyle", function (style) {
-        //   return style === "dashed" ? [6, 3] : [null];
-        // }),
-        // {
-        //   doubleClick: function (e, link) {
-        //     console.log({ link });
-        //     // Toggle the link style on double-click
-        //     if (link.data.customStyle === "dashed") {
-        //       link.data.customStyle = "solid";
-        //     } else {
-        //       link.data.customStyle = "dashed";
-        //     }
-        //     // Update the link appearance
-        //     link.updateTargetBindings();
-        //   },
-        // }
+        { strokeWidth: 2 },
+        new go.Binding("strokeDashArray", "customStyle", function (style) {
+          return style === "dashed"
+            ? [3, 6]
+            : style === "dotted"
+            ? [1, 3]
+            : style === "long"
+            ? [6, 3]
+            : [];
+        })
       ),
       $(
         go.Shape, // the arrowhead
@@ -155,34 +145,6 @@ export const Genograph = () => {
       )
     );
 
-    // myDiagram.linkTemplate = $(
-    //   go.Link,
-    //   { routing: go.Link.Orthogonal, corner: 10 },
-    //   $(
-    //     go.Shape,
-    //     { strokeWidth: 2, stroke: "blue" },
-    //     {
-    //       doubleClick: function (e, link) {
-    //         // Toggle the link style on double-click
-    //         if (link.data.customStyle === "dashed") {
-    //           link.data.customStyle = "solid";
-    //         } else {
-    //           link.data.customStyle = "dashed";
-    //         }
-    //         // Update the link appearance
-    //         link.updateTargetBindings();
-    //       },
-    //     }
-    //   ),
-    //   $(
-    //     go.Shape,
-    //     { strokeWidth: 2, stroke: "blue" },
-    //     new go.Binding("strokeDashArray", "customStyle", function (style) {
-    //       return style === "dashed" ? [6, 3] : null;
-    //     })
-    //   )
-    // );
-
     myDiagram.addDiagramListener("ObjectSingleClicked", (e) => {
       const clickedPart = e.subject.part;
       if (!(clickedPart instanceof go.Node)) return;
@@ -191,10 +153,10 @@ export const Genograph = () => {
         if (myDiagram.model.selectedNodeData.key === clickedPart.data.key) {
         } else {
           const linkData = {
+            key: getLongestId(),
             from: myDiagram.model.selectedNodeData.key,
             to: clickedPart.data.key,
           };
-          onAddLines(linkData.from, linkData.to);
           myDiagram.model.addLinkData(linkData);
           // Deselect the selected node
           myDiagram.model.selectedNodeData = null;
@@ -217,7 +179,60 @@ export const Genograph = () => {
           // Activate the text editing mode
           myDiagram.commandHandler.editTextBlock(textBlock);
         }
+      } else if (clickedPart instanceof go.Link) {
+        const link = clickedPart;
+        const model = link.diagram.model;
+        if (model) {
+          // Toggle the customStyle property between 'dashed' and 'parallel'
+          model.startTransaction("updateLinkStyle");
+          let customStyle = link.data.customStyle,
+            setStyle = "dotted";
+          if (customStyle === "dashed") {
+          } else {
+            if (customStyle === "dotted") {
+              setStyle = "long";
+            } else {
+              if (customStyle === "long") {
+                setStyle = "normal";
+              } else {
+                setStyle = "dashed";
+              }
+            }
+          }
+          console.log(customStyle, setStyle);
+          model.setDataProperty(link.data, "customStyle", setStyle);
+          model.commitTransaction("updateLinkStyle");
+        }
       }
+    });
+
+    myDiagram.addDiagramListener("TextEdited", (e) => {
+      const part = e.subject;
+      if (part instanceof go.TextBlock) {
+        const node = part.part;
+        const model = node.diagram.model;
+        if (model) {
+          // Update the data in the model with the new text
+          model.startTransaction("updateNodeText");
+          model.setDataProperty(node.data, "text", part.text);
+          model.commitTransaction("updateNodeText");
+        }
+      }
+    });
+
+    myDiagram.addDiagramListener("SelectionMoved", (e) => {
+      const model = e.diagram.model;
+      e.diagram.selection.each(function (node) {
+        // Check if the node is in the model
+        if (node.data && model) {
+          // Store the node's new location in the node's data
+          model.setDataProperty(
+            node.data,
+            "loc",
+            go.Point.stringify(node.location)
+          );
+        }
+      });
     });
 
     // myDiagram.addModelChangedListener((evt) => {
@@ -229,98 +244,35 @@ export const Genograph = () => {
     //   if (txn === null) return;
     //   // iterate over all of the actual ChangedEvents of the Transaction
     //   txn.changes.each((e) => {
-    //     // console.log({ change: e.change });
+    //     console.log({ change: e.change, e });
     //   });
     // });
 
-    getIcons();
+    axios
+      .get("http://localhost:3000/enrolment")
+      .then((res) => res.data)
+      .then((res) => {
+        try {
+          let model = JSON.parse(res.model);
+          console.log({ model });
+          myDiagram.model = go.Model.fromJson(model);
+        } catch (err) {
+          console.error({ err });
+        }
+      })
+      .catch((err) => {});
 
     return () => {
       myDiagram.div = null;
     };
   }, []);
 
-  // useEffect(() => {
-  //   // if (diagram) {
-  //   //   getElements();
-  //   //   getLines();
-  //   // }
-  // }, [diagram]);
-
-  const getElements = () => {
-    axios
-      .get("http://localhost:3000/enrolment")
-      .then((res) => res.data)
-      .then((res) => {
-        try {
-          let data = JSON.parse(res.model);
-          let family = data.family;
-          setFamily(family);
-          // diagram.model.fromJSON(res.model);
-          family.map((f, idx) => {
-            diagram.model.addNodeData(
-              createNode(f.icon, f.key, null, null, f.icon)
-            );
-          });
-        } catch (err) {}
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const getLines = () => {
-    axios
-      .get("http://localhost:3000/enrolment")
-      .then((res) => res.data)
-      .then((res) => {
-        try {
-          let data = JSON.parse(res.model);
-          let lines = data.lines;
-          setLines(lines);
-          // diagram.model.fromJSON(res.model);
-          lines.map((l, idx) => {
-            diagram.model.addLinkData(createLink(l.from, l.to));
-          });
-        } catch (err) {}
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const getIcons = () => {
-    // axios
-    //   .get("http://localhost:3000/icons")
-    //   .then((res) => res.data)
-    //   .then((res) => {
-    //     setIcons(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  };
-
-  const createNode = (icon, key, x = null, y = null, text = null) => {
-    return {
-      key,
-      loc: `${x} ${y}`,
-      text: text || "Uncle",
-      icon: `./${icon}.svg`,
-      color: "lightblue",
-    };
-  };
-
-  const createLink = (from, to) => {
-    return { from, to };
-  };
-
   const getLargestId = () => {
-    return family.length;
+    return diagram.model.nodeDataArray.length || 0;
   };
 
   const getLongestId = () => {
-    return lines.length;
+    return diagram.model.linkDataArray.length || 0;
   };
 
   const dragStartHandler = (e) => {
@@ -338,40 +290,19 @@ export const Genograph = () => {
     e.preventDefault();
     e.stopPropagation();
     const icon = e.dataTransfer.getData("icon");
-    onAddFamily(icon, x, y, icon);
-  };
-
-  const onAddFamily = (icon, x, y, text) => {
     let newMember = {
       key: getLargestId(),
-      icon,
-      x,
-      y,
-      text,
+      loc: `${x} ${y}`,
+      text: icon || "enter relationship here",
+      icon: `./${icon}.svg`,
+      color: "lightblue",
     };
-
-    diagram.model.addNodeData(createNode(icon, newMember.key, x, y, icon));
-    setFamily((family) => [...family, newMember]);
+    diagram.model.addNodeData(newMember);
   };
-
-  const onAddLines = (from, to) => {
-    let newLine = { key: getLongestId(), from, to };
-    // console.log({ diagram });
-    // diagram.model.addLinkData({ from, to });
-    setLines((lines) => [...lines, newLine]);
-  };
-
-  // const onSave = () => {
-  //   axios.put("http://localhost:3000/enrolment", {
-  //     model: diagram.model.toJson(),
-  //   });
-  // };
 
   const onSave = () => {
-    // console.log("saving");
-    let data = { family, lines };
     axios.put("http://localhost:3000/enrolment", {
-      model: JSON.stringify(data),
+      model: diagram.model.toJson(),
     });
   };
 
@@ -405,14 +336,42 @@ export const Genograph = () => {
           </div>
         ))}
       </div>
-      <div
-        ref={genogramRef}
-        style={{ width: "100%", height: "500px" }}
-        className="flex-1"
-        onDragOver={dragOverHandler}
-        onDrop={dropHandler}
-        onChange={onSave}
-      ></div>
+      <div style={{ width: "100%", height: "500px", position: "relative" }}>
+        <div
+          class="legend-container"
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+          }}
+        >
+          <h3>Legends</h3>
+          <div class="legend-item">
+            <div class="legend-line solid"></div>
+            <span>Marriage</span>
+          </div>
+
+          <div class="legend-item">
+            <div class="legend-line long-dashed"></div>
+            <span>Divorced or separation</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-line dotted"></div>
+            <span>Extramarital mating</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-line dashed"></div>
+            <span>Consanguineous marriage</span>
+          </div>
+        </div>
+        <div
+          ref={genogramRef}
+          style={{ width: "100%", height: "100%" }}
+          onDragOver={dragOverHandler}
+          onDrop={dropHandler}
+          onChange={onSave}
+        ></div>
+      </div>
     </div>
   );
 };
