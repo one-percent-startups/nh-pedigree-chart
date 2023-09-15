@@ -9,7 +9,80 @@ export const Genograph = () => {
 
   const [family, setFamily] = useState([]);
   const [lines, setLines] = useState([]);
-  const [icons, setIcons] = useState([]);
+  const [icons, setIcons] = useState([
+    {
+      icon: "proband-male",
+      label: "Proband Male",
+    },
+    {
+      icon: "affected-by-history-female",
+      label: "ABH Female",
+    },
+    {
+      icon: "affected-by-history-male",
+      label: "ABH Male",
+    },
+    {
+      icon: "affected-female",
+      label: "Affected female",
+    },
+    {
+      icon: "affected-male",
+      label: "Affected male",
+    },
+    {
+      icon: "carrier",
+      label: "Carrier",
+    },
+    {
+      icon: "deceased-female",
+      label: "Deceased female",
+    },
+    {
+      icon: "deceased-male",
+      label: "Deceased male",
+    },
+    {
+      icon: "examined-female",
+      label: "Examined female",
+    },
+    {
+      icon: "female",
+      label: "Female",
+    },
+    {
+      icon: "lived-one-day",
+      label: "Lived one day",
+    },
+    {
+      icon: "male",
+      label: "Male",
+    },
+    {
+      icon: "miscarriage",
+      label: "Miscarriage",
+    },
+    {
+      icon: "pregnancy",
+      label: "Pregnancy",
+    },
+    {
+      icon: "sex-unknown",
+      label: "Sex unknown",
+    },
+    {
+      icon: "stillbirth",
+      label: "Still birth",
+    },
+    {
+      icon: "two-females",
+      label: "Two females",
+    },
+    {
+      icon: "two-males",
+      label: "Two males",
+    },
+  ]);
 
   useEffect(() => {
     const $ = go.GraphObject.make;
@@ -215,17 +288,17 @@ export const Genograph = () => {
       });
   };
 
-  const getIcons = () => {
-    axios
-      .get("http://localhost:3000/icons")
-      .then((res) => res.data)
-      .then((res) => {
-        setIcons(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const getIcons = () => {
+  //   axios
+  //     .get("http://localhost:3000/icons")
+  //     .then((res) => res.data)
+  //     .then((res) => {
+  //       setIcons(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   const createNode = (icon, key, x = null, y = null, text = null) => {
     return {
