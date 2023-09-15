@@ -288,17 +288,17 @@ export const Genograph = () => {
       });
   };
 
-  // const getIcons = () => {
-  //   axios
-  //     .get("http://localhost:3000/icons")
-  //     .then((res) => res.data)
-  //     .then((res) => {
-  //       setIcons(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const getIcons = () => {
+    // axios
+    //   .get("http://localhost:3000/icons")
+    //   .then((res) => res.data)
+    //   .then((res) => {
+    //     setIcons(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  };
 
   const createNode = (icon, key, x = null, y = null, text = null) => {
     return {
